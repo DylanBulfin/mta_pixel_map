@@ -1,0 +1,11 @@
+[package]
+name = "transit_app"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+godot = "0.2.4"
+# gtfs-parsing = { git = "https://github.com/DylanBulfin/gtfs-parsing", branch = "main" }
+
+[lib]
+crate-type = ["cdylib"]
