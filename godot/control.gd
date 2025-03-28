@@ -1,4 +1,4 @@
-extends Control
+extends Node2D
 
 const nyc_angle: float = -29 * PI / 180
 
@@ -36,6 +36,12 @@ func _ready() -> void:
 		total += point.ppos + point.local_scale * (x_norm * diff.x + y_norm * diff.y)
 	
 	print(total / 3)
+	
+	var image = preload("res://NYC.png")
+	image.set_pixel(0, 0, Color.WEB_PURPLE)
+	var image_texture = ImageTexture.create_from_image(image)
+	
+	%TextureRect.texture = image_texture
 	
 
 func find_closest_points(target: Vector2, count: int = num_nearby) -> Array[ReferencePoint]:

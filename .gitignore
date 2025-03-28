@@ -1,2 +1,6 @@
 /target
 rust/target
+.DS_Store
+*/.DS_Store
+rust/test_data
+*/.session

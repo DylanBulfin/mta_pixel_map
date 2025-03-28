@@ -5,7 +5,9 @@ edition = "2024"
 
 [dependencies]
 godot = "0.2.4"
-# gtfs-parsing = { git = "https://github.com/DylanBulfin/gtfs-parsing", branch = "main" }
+gtfs-parsing = { git = "https://github.com/DylanBulfin/gtfs-parsing", branch = "main" }
+serde = "1.0.219"
+serde_json = "1.0.140"
 
 [lib]
 crate-type = ["cdylib"]
