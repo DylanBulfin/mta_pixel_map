@@ -1,0 +1,121 @@
+[gd_resource type="Resource" script_class="Data" load_steps=17 format=3 uid="uid://btwljrwyqr6lp"]
+
+[ext_resource type="Script" uid="uid://bb4srkfl5dxdm" path="res://resources/reference_point.gd" id="1_43sm2"]
+[ext_resource type="Script" uid="uid://cqqfd318w28uj" path="res://resources/data.gd" id="2_cp44m"]
+
+[sub_resource type="Resource" id="Resource_43sm2"]
+script = ExtResource("1_43sm2")
+lat = 40.876
+long = -73.927
+px = 3.0
+py = 36.0
+metadata/_custom_type_script = "uid://bb4srkfl5dxdm"
+
+[sub_resource type="Resource" id="Resource_cp44m"]
+script = ExtResource("1_43sm2")
+lat = 40.872
+long = -73.911
+px = 14.0
+py = 35.0
+metadata/_custom_type_script = "uid://bb4srkfl5dxdm"
+
+[sub_resource type="Resource" id="Resource_ytyv2"]
+script = ExtResource("1_43sm2")
+lat = 40.843
+long = -73.946
+px = 5.0
+py = 66.0
+metadata/_custom_type_script = "uid://bb4srkfl5dxdm"
+
+[sub_resource type="Resource" id="Resource_ol014"]
+script = ExtResource("1_43sm2")
+lat = 40.834
+long = -73.935
+px = 16.0
+py = 71.0
+metadata/_custom_type_script = "uid://bb4srkfl5dxdm"
+
+[sub_resource type="Resource" id="Resource_131y6"]
+script = ExtResource("1_43sm2")
+lat = 40.801
+long = -73.958
+px = 16.0
+py = 101.0
+metadata/_custom_type_script = "uid://bb4srkfl5dxdm"
+
+[sub_resource type="Resource" id="Resource_02ld8"]
+script = ExtResource("1_43sm2")
+lat = 40.797
+long = -73.949
+px = 22.0
+py = 101.0
+metadata/_custom_type_script = "uid://bb4srkfl5dxdm"
+
+[sub_resource type="Resource" id="Resource_h461v"]
+script = ExtResource("1_43sm2")
+lat = 40.768
+long = -73.982
+px = 16.0
+py = 131.0
+metadata/_custom_type_script = "uid://bb4srkfl5dxdm"
+
+[sub_resource type="Resource" id="Resource_t5xbo"]
+script = ExtResource("1_43sm2")
+lat = 40.764
+long = -73.973
+px = 22.0
+py = 131.0
+metadata/_custom_type_script = "uid://bb4srkfl5dxdm"
+
+[sub_resource type="Resource" id="Resource_qw848"]
+script = ExtResource("1_43sm2")
+lat = 40.798
+long = -73.929
+px = 34.0
+py = 95.0
+metadata/_custom_type_script = "uid://bb4srkfl5dxdm"
+
+[sub_resource type="Resource" id="Resource_fnxq6"]
+script = ExtResource("1_43sm2")
+lat = 40.776
+long = -73.943
+px = 35.0
+py = 113.0
+metadata/_custom_type_script = "uid://bb4srkfl5dxdm"
+
+[sub_resource type="Resource" id="Resource_3gdyj"]
+script = ExtResource("1_43sm2")
+lat = 40.712
+long = -73.977
+px = 42.0
+py = 171.0
+metadata/_custom_type_script = "uid://bb4srkfl5dxdm"
+
+[sub_resource type="Resource" id="Resource_4xofw"]
+script = ExtResource("1_43sm2")
+lat = 40.702
+long = -74.016
+px = 24.0
+py = 191.0
+metadata/_custom_type_script = "uid://bb4srkfl5dxdm"
+
+[sub_resource type="Resource" id="Resource_kf1lo"]
+script = ExtResource("1_43sm2")
+lat = 40.752
+long = -73.965
+px = 32.0
+py = 139.0
+metadata/_custom_type_script = "uid://bb4srkfl5dxdm"
+
+[sub_resource type="Resource" id="Resource_y1po8"]
+script = ExtResource("1_43sm2")
+lat = 40.749
+long = -74.007
+px = 8.0
+py = 155.0
+metadata/_custom_type_script = "uid://bb4srkfl5dxdm"
+
+[resource]
+script = ExtResource("2_cp44m")
+reference_points = Array[ExtResource("1_43sm2")]([SubResource("Resource_43sm2"), SubResource("Resource_cp44m"), SubResource("Resource_ytyv2"), SubResource("Resource_ol014"), SubResource("Resource_131y6"), SubResource("Resource_02ld8"), SubResource("Resource_h461v"), SubResource("Resource_t5xbo"), SubResource("Resource_qw848"), SubResource("Resource_fnxq6"), SubResource("Resource_3gdyj"), SubResource("Resource_4xofw"), SubResource("Resource_kf1lo"), SubResource("Resource_y1po8")])
+metadata/_custom_type_script = "uid://cqqfd318w28uj"
