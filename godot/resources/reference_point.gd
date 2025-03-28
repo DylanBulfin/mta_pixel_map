@@ -5,10 +5,10 @@ class_name ReferencePoint
 @export var long: float
 
 var latlong: Vector2:
-	get: return Vector2(lat, long)
+	get: return Vector2(long, lat)
 	set(v):
-		lat = v.x
-		long = v.y
+		lat = v.y
+		long = v.x
 
 @export var px: float
 @export var py: float
@@ -18,3 +18,5 @@ var ppos: Vector2:
 	set(v):
 		px = v.x
 		py = v.y
+
+var local_scale: float
