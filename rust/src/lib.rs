@@ -1,55 +1,88 @@
 use godot::{meta::ArrayElement, prelude::*};
 use gtfs_parsing::schedule::shapes::{Shape, ShapePointData};
-use serde::Serialize;
+use serde::{Serialize, ser::SerializeStruct};
 
 struct MyExtension;
 
 #[gdextension]
 unsafe impl ExtensionLibrary for MyExtension {}
 
-#[derive(GodotClass, Debug)]
-#[class(no_init, base = RefCounted)]
-pub struct GShape {
-    pub shape_id: GString,
-    pub lats: Array<f64>,
-    pub lons: Array<f64>,
+macro_rules! make_objs {
+    ($obj1:ident, $obj2:ident, $($field:ident: $type1:ty: $type2:ty),+ $(,)?) => {
+        #[derive(GodotClass, Debug)]
+        #[class(init, base=RefCounted)]
+        pub struct $obj1 {
+            $(
+                #[var]
+                $field: $type1,
+            )+
+        }
+
+        #[derive(Serialize, Debug)]
+        pub struct $obj2 {
+            $(
+                $field: $type2,
+            )+
+        }
+    };
 }
 
-impl From<Shape> for GShape {
+make_objs!(ShapeGodot, ShapeRust,
+    shape_id: GString: String,
+    lats: Array<f32>: Vec<f32>,
+    lons: Array<f32>: Vec<f32>,
+);
+
+impl From<Shape> for ShapeRust {
     fn from(value: Shape) -> Self {
         let Shape { shape_id, points } = value;
+        let lats = points.iter().map(|sp| sp.shape_pt_lat as f32).collect();
+        let lons = points.iter().map(|sp| sp.shape_pt_lon as f32).collect();
         Self {
             shape_id: shape_id.into(),
-            lats: (points
-                .iter()
-                .map(|sp| sp.shape_pt_lat)
-                .collect::<Vec<_>>()
-                .as_slice())
-            .into(),
-            lons: (points
-                .iter()
-                .map(|sp| sp.shape_pt_lon)
-                .collect::<Vec<_>>()
-                .as_slice())
-            .into(),
+            lats,
+            lons,
         }
     }
 }
 
 #[godot_api]
-impl GShape {
+impl ShapeGodot {
     #[func]
-    fn get_lats() -> GString {
+    fn get_one_shape() -> GString {
+        Self::get_shape_by_id("1..N03R")
+    }
+
+    #[func]
+    fn get_six_shape() -> GString {
+        Self::get_shape_by_id("6..N01R")
+    }
+
+    #[func]
+    fn get_sev_shape() -> GString {
+        Self::get_shape_by_id("7..N95R")
+    }
+
+    #[func]
+    fn get_q_shape() -> GString {
+        Self::get_shape_by_id("Q..N16R")
+    }
+
+    #[func]
+    fn get_n_shape() -> GString {
+        Self::get_shape_by_id("N..N20R")
+    }
+
+    fn get_shape_by_id(id: &str) -> GString {
         let schedule = gtfs_parsing::schedule::Schedule::from_dir("./test_data", true);
 
-        let mut shapes: Vec<Shape> = schedule.shapes;
+        let mut shapes: Vec<ShapeRust> = schedule.shapes.into_iter().map(Shape::into).collect();
 
-        shapes = shapes
-            .into_iter()
-            .filter(|s| s.shape_id == "1..N03R")
-            .collect();
-        serde_json::to_string(&shapes.pop().unwrap())
-            .unwrap()
+        assert_eq!(shapes.len(), 311);
+
+        shapes = shapes.into_iter().filter(|s| s.shape_id == id).collect();
+        serde_json::to_string(&shapes.pop().expect("try"))
+            .expect("exp")
             .into()
     }
 }

@@ -160,7 +160,7 @@ dependencies = [
 [[package]]
 name = "gtfs-parsing"
 version = "0.1.0"
-source = "git+https://github.com/DylanBulfin/gtfs-parsing?branch=main#cd41fa89a76c37f8618af291c7c0fdd80f2fb70a"
+source = "git+https://github.com/DylanBulfin/gtfs-parsing?branch=main#fd374179cb7fa2364e8cbc54ff0bf3d23fb3ba47"
 dependencies = [
  "csv",
  "godot",

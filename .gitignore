@@ -4,3 +4,4 @@ rust/target
 */.DS_Store
 rust/test_data
 */.session
+godot/test_data
