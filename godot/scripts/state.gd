@@ -1,6 +1,6 @@
 extends Node
 
-var num_closest: int = 5
+var num_closest: int = 10
 var pixel_factor: int = 5
 
 var background_image: Image = preload("res://NYC.png")
