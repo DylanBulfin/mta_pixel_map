@@ -3,6 +3,21 @@ extends Node
 var rects: Array[TextureRect]
 
 func _ready() -> void:
+	init_routes()
+	init_stations()
+	
+func init_stations() -> void:
+	var image = Image.create_empty(State.background_image.get_width(), State.background_image.get_height(), false, Image.FORMAT_RGBA8)
+	
+	for station_id in State.stations:
+		var station = State.stations[station_id]
+		var ppos = Utils.estimate_pixel_pos(Vector2(station.lon, station.lat))
+		Utils.draw_megapixel(ppos, image, Color.WHITE)
+	
+	var texture = ImageTexture.create_from_image(image)
+	%StationRect.texture = texture
+
+func init_routes() -> void:
 	for route: Route in State.routes:
 		route.image = Image.create_empty(
 			State.background_image.get_width(), 
@@ -27,9 +42,7 @@ func _ready() -> void:
 		
 		
 		for ppos in interpolate_line(pposs):
-			for px in range(State.pixel_factor):
-				for py in range(State.pixel_factor):
-					route.image.set_pixelv((State.pixel_factor * ppos) + Vector2i(px, py), route.color)
+			Utils.draw_megapixel(ppos, route.image, route.color)
 		
 		var rect = TextureRect.new();
 		var texture = ImageTexture.create_from_image(route.image)
@@ -73,6 +86,38 @@ func interpolate_line(pposs: Array[Vector2i]) -> Array[Vector2i]:
 		
 		if i + 3 >= len(pposs):
 			break
+	
+	# Almost certainly not necessary, shape points are usually so close that many
+	# of them correspond to the same pixel. This change would only be necessary if
+	# there were a major gap between the first and second or the last and second
+	# to last. But since I want to support arbitrary shapes instead of tailoring
+	# too heavily to the default ones, I 
+	for triple in [[2, 1, 0], [-3, -2, -1]]:
+		var pre_a = pposs[triple[0]]
+		var a = pposs[triple[1]]
+		var b = pposs[triple[2]]
+		
+		var x = 0.0
+		
+		# Interpolate between first and last pair of points
+		while x <= 1.0:
+			var val = Vector2(a).cubic_interpolate(Vector2(b), Vector2(pre_a), Vector2(b), x)
+			var vi = Vector2i(round(val.x), round(val.y))
+			
+			if vi not in new_vals:
+				new_vals[vi] = null
+			
+			x += 0.05
+				
+		# Explicitly do 1.0 as well
+		var val = Vector2(a).cubic_interpolate(Vector2(b), Vector2(pre_a), Vector2(b), 1.0)
+		var vi = Vector2i(round(val.x), round(val.y))
+		
+		if vi not in new_vals:
+			print(i)
+			new_vals[vi] = null
+			pass
+	
 	
 	var res: Array[Vector2i]
 	res.assign(new_vals.keys())

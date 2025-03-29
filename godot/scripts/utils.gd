@@ -29,3 +29,13 @@ func estimate_pixel_pos(latlong: Vector2, count: int = State.num_closest) -> Vec
 	var res := total / total_distance
 	
 	return Vector2i(round(res.x), round(res.y))
+
+func draw_megapixel(ppos: Vector2i, image: Image, color: Color) -> void:
+	for px in range(State.pixel_factor):
+		for py in range(State.pixel_factor):
+			var final_pos = (State.pixel_factor * ppos) + Vector2i(px, py)
+			
+			if final_pos.x >= 0 and final_pos.y >= 0 and final_pos.x < image.get_width() and final_pos.y < image.get_height():
+				image.set_pixelv(final_pos, color)
+			else:
+				return

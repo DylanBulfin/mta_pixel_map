@@ -1,7 +1,9 @@
 use godot::{classes::json, meta::ArrayElement, prelude::*};
 use gtfs_parsing::schedule::{
     Schedule,
+    mta::SubwayStation,
     shapes::{Shape, ShapePointData},
+    stops::Stop,
 };
 use serde::{Serialize, ser::SerializeStruct};
 
@@ -37,7 +39,15 @@ make_objs!(ShapeGodot, ShapeRust,
 );
 
 make_objs!(ScheduleGodot, ScheduleRust,
-    shapes: Array<GString>: Vec<String>
+    shapes: Array<GString>: Vec<String>,
+    stations: Array<GString>: Vec<String>,
+);
+
+make_objs!(StationGodot, StationRust,
+    id: GString: String,
+    name: GString: String,
+    lat: f32: f32,
+    lon: f32: f32,
 );
 
 impl From<Shape> for ShapeRust {
@@ -49,6 +59,28 @@ impl From<Shape> for ShapeRust {
             shape_id: shape_id.into(),
             lats,
             lons,
+        }
+    }
+}
+
+impl From<Stop> for StationRust {
+    fn from(value: Stop) -> Self {
+        if let Stop {
+            stop_lat: Some(lat),
+            stop_lon: Some(lon),
+            stop_name: Some(name),
+            stop_id: id,
+            ..
+        } = value
+        {
+            Self {
+                lat: lat.parse().expect("Unable to parse latitude"),
+                lon: lon.parse().expect("Unable to parse longitude"),
+                name,
+                id,
+            }
+        } else {
+            panic!("Wrong format")
         }
     }
 }
@@ -66,7 +98,15 @@ impl ScheduleGodot {
             .map(|st| GString::from(st))
             .collect::<Vec<_>>()
             .as_slice()
-            .into()
+            .into();
+
+        self.stations = schedule
+            .stations
+            .iter()
+            .map(|st| GString::from(st))
+            .collect::<Vec<_>>()
+            .as_slice()
+            .into();
     }
 }
 
@@ -79,47 +119,12 @@ impl From<Schedule> for ScheduleRust {
                 .map(Shape::into)
                 .map(|s: ShapeRust| serde_json::to_string(&s).expect("Unable to parse shapes"))
                 .collect(),
+            stations: value
+                .stops
+                .into_iter()
+                .map(Stop::into)
+                .map(|s: StationRust| serde_json::to_string(&s).expect("Unable to parse shapes"))
+                .collect(),
         }
-    }
-}
-
-#[godot_api]
-impl ShapeGodot {
-    #[func]
-    fn get_one_shape() -> GString {
-        Self::get_shape_by_id("1..N03R")
-    }
-
-    #[func]
-    fn get_six_shape() -> GString {
-        Self::get_shape_by_id("6..N01R")
-    }
-
-    #[func]
-    fn get_sev_shape() -> GString {
-        Self::get_shape_by_id("7..N95R")
-    }
-
-    #[func]
-    fn get_q_shape() -> GString {
-        Self::get_shape_by_id("Q..N16R")
-    }
-
-    #[func]
-    fn get_n_shape() -> GString {
-        Self::get_shape_by_id("N..N20R")
-    }
-
-    fn get_shape_by_id(id: &str) -> GString {
-        let schedule = gtfs_parsing::schedule::Schedule::from_dir("./test_data", true);
-
-        let mut shapes: Vec<ShapeRust> = schedule.shapes.into_iter().map(Shape::into).collect();
-
-        assert_eq!(shapes.len(), 311);
-
-        shapes = shapes.into_iter().filter(|s| s.shape_id == id).collect();
-        serde_json::to_string(&shapes.pop().expect("try"))
-            .expect("exp")
-            .into()
     }
 }

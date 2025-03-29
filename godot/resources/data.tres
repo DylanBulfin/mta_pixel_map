@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="Data" load_steps=63 format=3 uid="uid://btwljrwyqr6lp"]
+[gd_resource type="Resource" script_class="Data" load_steps=62 format=3 uid="uid://btwljrwyqr6lp"]
 
 [ext_resource type="Script" uid="uid://bb4srkfl5dxdm" path="res://resources/reference_point.gd" id="1_43sm2"]
 [ext_resource type="Script" uid="uid://cqqfd318w28uj" path="res://resources/data.gd" id="2_cp44m"]
@@ -178,14 +178,6 @@ lat = 40.805
 long = -73.848
 px = 76.0
 py = 65.0
-metadata/_custom_type_script = "uid://bb4srkfl5dxdm"
-
-[sub_resource type="Resource" id="Resource_0ncr4"]
-script = ExtResource("1_43sm2")
-lat = 40.839
-long = -73.887
-px = 34.0
-py = 49.0
 metadata/_custom_type_script = "uid://bb4srkfl5dxdm"
 
 [sub_resource type="Resource" id="Resource_1n0oa"]
@@ -478,6 +470,6 @@ metadata/_custom_type_script = "uid://qbdt7xgahrcc"
 
 [resource]
 script = ExtResource("2_cp44m")
-reference_points = Array[ExtResource("1_43sm2")]([SubResource("Resource_43sm2"), SubResource("Resource_cp44m"), SubResource("Resource_ytyv2"), SubResource("Resource_ol014"), SubResource("Resource_131y6"), SubResource("Resource_02ld8"), SubResource("Resource_h461v"), SubResource("Resource_t5xbo"), SubResource("Resource_qw848"), SubResource("Resource_fnxq6"), SubResource("Resource_3gdyj"), SubResource("Resource_4xofw"), SubResource("Resource_kf1lo"), SubResource("Resource_y1po8"), SubResource("Resource_qqk0b"), SubResource("Resource_usvg8"), SubResource("Resource_jbo5t"), SubResource("Resource_jcsfa"), SubResource("Resource_sjmuf"), SubResource("Resource_by2qk"), SubResource("Resource_boa2p"), SubResource("Resource_qcrus"), SubResource("Resource_0ncr4"), SubResource("Resource_1n0oa"), SubResource("Resource_eqixj"), SubResource("Resource_glosd"), SubResource("Resource_b0l7j"), SubResource("Resource_pmgnf"), SubResource("Resource_1faqq"), SubResource("Resource_3eglo"), SubResource("Resource_o2rsq"), SubResource("Resource_w2vyv"), SubResource("Resource_pr8f3"), SubResource("Resource_n2dut"), SubResource("Resource_mm8ag"), SubResource("Resource_juk5a"), SubResource("Resource_dluos"), SubResource("Resource_hr8yo"), SubResource("Resource_i8pds")])
+reference_points = Array[ExtResource("1_43sm2")]([SubResource("Resource_43sm2"), SubResource("Resource_cp44m"), SubResource("Resource_ytyv2"), SubResource("Resource_ol014"), SubResource("Resource_131y6"), SubResource("Resource_02ld8"), SubResource("Resource_h461v"), SubResource("Resource_t5xbo"), SubResource("Resource_qw848"), SubResource("Resource_fnxq6"), SubResource("Resource_3gdyj"), SubResource("Resource_4xofw"), SubResource("Resource_kf1lo"), SubResource("Resource_y1po8"), SubResource("Resource_qqk0b"), SubResource("Resource_usvg8"), SubResource("Resource_jbo5t"), SubResource("Resource_jcsfa"), SubResource("Resource_sjmuf"), SubResource("Resource_by2qk"), SubResource("Resource_boa2p"), SubResource("Resource_qcrus"), SubResource("Resource_1n0oa"), SubResource("Resource_eqixj"), SubResource("Resource_glosd"), SubResource("Resource_b0l7j"), SubResource("Resource_pmgnf"), SubResource("Resource_1faqq"), SubResource("Resource_3eglo"), SubResource("Resource_o2rsq"), SubResource("Resource_w2vyv"), SubResource("Resource_pr8f3"), SubResource("Resource_n2dut"), SubResource("Resource_mm8ag"), SubResource("Resource_juk5a"), SubResource("Resource_dluos"), SubResource("Resource_hr8yo"), SubResource("Resource_i8pds")])
 routes = Array[ExtResource("2_ytyv2")]([SubResource("Resource_76wyw"), SubResource("Resource_k50qm"), SubResource("Resource_7lu4w"), SubResource("Resource_rrlvb"), SubResource("Resource_ok110"), SubResource("Resource_ce2km"), SubResource("Resource_lfy1k"), SubResource("Resource_gyy3b"), SubResource("Resource_jlnsm"), SubResource("Resource_dq6nn"), SubResource("Resource_nv7fd"), SubResource("Resource_em62o"), SubResource("Resource_h15ic"), SubResource("Resource_kek80"), SubResource("Resource_5bv25"), SubResource("Resource_4ak54"), SubResource("Resource_60nr7"), SubResource("Resource_0ua88"), SubResource("Resource_2nrij"), SubResource("Resource_gqm6i")])
 metadata/_custom_type_script = "uid://cqqfd318w28uj"
