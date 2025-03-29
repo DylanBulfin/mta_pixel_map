@@ -1,9 +1,9 @@
-extends Node2D
+extends Control
 
 const nyc_angle: float = -29 * PI / 180
 
 var reference_points: Array[ReferencePoint]
-var num_nearby = 3
+var num_nearby = 5
 
 var x_norm = Vector2(cos(nyc_angle), sin(nyc_angle))
 var y_norm = Vector2(sin(nyc_angle), -cos(nyc_angle))
@@ -38,11 +38,15 @@ func _ready() -> void:
 	
 	#draw_shape(shape_1, Color.RED, image)
 	#draw_shape(shape_6, Color.WEB_GREEN, image)
-	#draw_shape(shape_q, Color.YELLOW, image)
+	#draw_shape(sshape_q, Color.YELLOW, image)
 	#draw_shape(shape_n, Color.LIGHT_YELLOW, image)
 	#draw_shape(shape_7, Color.PURPLE, image)
 	var points = interpolate_points(shape_1)
 	draw_points(points, Color.RED, image)
+	
+	points = interpolate_points(shape_6)
+	
+	draw_points(points, Color.WEB_GREEN, image)
 	
 	var image_texture = ImageTexture.create_from_image(image)
 	%TextureRect.texture = image_texture
@@ -61,13 +65,27 @@ func find_closest_points(target: Vector2, count: int = num_nearby) -> Array[Refe
 func estimate_ppos(target: Vector2, count: int = num_nearby):
 	var closest = find_closest_points(target, count)
 	
+	var total_distance := 0.0
+	var min_distance := 1e100
+	
+	for point in closest:
+		var diff = target - point.latlong
+		var dist = diff.length()
+		total_distance += (1/dist)
+		if dist < min_distance: min_distance = dist
+	
+
 	var total := Vector2.ZERO
 	for point in closest:
 		var diff = target - point.latlong
+		var dist = diff.length()
 		
-		total += point.ppos + point.local_scale * (x_norm * diff.x + y_norm * diff.y)
+		total += (1 / dist) * (point.ppos + point.local_scale * (x_norm * diff.x + y_norm * diff.y))
 	
-	return total / count
+	if total_distance == 0:
+		print(total)
+	
+	return total / total_distance
 
 func get_shape(json_string: String) -> ShapeGodot:
 	var shape: ShapeGodot = ShapeGodot.new()
@@ -124,21 +142,5 @@ func interpolate_points(shape: ShapeGodot) -> Array[Vector2]:
 	all_points.append_array(new_points)
 	old_points = new_points.duplicate()
 	new_points.clear()
-
-	for _iteration in range(50):
-		for i in range(len(old_points) - 3):
-			var p1 = old_points[i]
-			var p2 = old_points[i + 1]
-			var p3 = old_points[i + 2]
-			var p4 = old_points[i + 3]
-			
-			var new_point = p2.cubic_interpolate(p3, p1, p4, 0.5)
-			new_points.append(new_point)
-			
-		all_points.append_array(new_points)
-		old_points = new_points.duplicate()
-		new_points.clear()
-		
-		print(len(all_points))
 
 	return all_points

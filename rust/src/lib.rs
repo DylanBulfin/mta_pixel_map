@@ -1,5 +1,8 @@
-use godot::{meta::ArrayElement, prelude::*};
-use gtfs_parsing::schedule::shapes::{Shape, ShapePointData};
+use godot::{classes::json, meta::ArrayElement, prelude::*};
+use gtfs_parsing::schedule::{
+    Schedule,
+    shapes::{Shape, ShapePointData},
+};
 use serde::{Serialize, ser::SerializeStruct};
 
 struct MyExtension;
@@ -12,7 +15,7 @@ macro_rules! make_objs {
         #[derive(GodotClass, Debug)]
         #[class(init, base=RefCounted)]
         pub struct $obj1 {
-            $(
+           $(
                 #[var]
                 $field: $type1,
             )+
@@ -33,6 +36,10 @@ make_objs!(ShapeGodot, ShapeRust,
     lons: Array<f32>: Vec<f32>,
 );
 
+make_objs!(ScheduleGodot, ScheduleRust,
+    shapes: Array<GString>: Vec<String>
+);
+
 impl From<Shape> for ShapeRust {
     fn from(value: Shape) -> Self {
         let Shape { shape_id, points } = value;
@@ -42,6 +49,36 @@ impl From<Shape> for ShapeRust {
             shape_id: shape_id.into(),
             lats,
             lons,
+        }
+    }
+}
+
+#[godot_api]
+impl ScheduleGodot {
+    #[func]
+    fn setup(&mut self) {
+        let schedule: ScheduleRust =
+            gtfs_parsing::schedule::Schedule::from_dir("./test_data", true).into();
+
+        self.shapes = schedule
+            .shapes
+            .iter()
+            .map(|st| GString::from(st))
+            .collect::<Vec<_>>()
+            .as_slice()
+            .into()
+    }
+}
+
+impl From<Schedule> for ScheduleRust {
+    fn from(value: Schedule) -> Self {
+        Self {
+            shapes: value
+                .shapes
+                .into_iter()
+                .map(Shape::into)
+                .map(|s: ShapeRust| serde_json::to_string(&s).expect("Unable to parse shapes"))
+                .collect(),
         }
     }
 }
