@@ -15,10 +15,16 @@ run/main_scene="uid://cefbjvseifcxl"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+State="*res://scripts/state.gd"
+Utils="*res://scripts/utils.gd"
+Consts="*res://scripts/consts.gd"
+
 [display]
 
-window/size/viewport_width=220
-window/size/viewport_height=286
+window/size/viewport_width=1300
+window/size/viewport_height=1430
 window/stretch/mode="viewport"
 
 [rendering]
