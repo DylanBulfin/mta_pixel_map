@@ -38,4 +38,5 @@ func draw_megapixel(ppos: Vector2i, image: Image, color: Color) -> void:
 			if final_pos.x >= 0 and final_pos.y >= 0 and final_pos.x < image.get_width() and final_pos.y < image.get_height():
 				image.set_pixelv(final_pos, color)
 			else:
+				# If any pixel is out of bounds all will be, just abort
 				return

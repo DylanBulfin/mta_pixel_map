@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://cefbjvseifcxl"]
+[gd_scene load_steps=5 format=3 uid="uid://cefbjvseifcxl"]
 
 [ext_resource type="Script" uid="uid://b0ljch4r0sccd" path="res://scripts/control.gd" id="1_0fbet"]
 [ext_resource type="Script" uid="uid://buf3wr6pxkq4o" path="res://scripts/route_manager.gd" id="2_62e2m"]
+[ext_resource type="Script" uid="uid://d17vodsa321m7" path="res://realtime_manager.gd" id="3_ee4bf"]
 [ext_resource type="Script" uid="uid://d250jotwp888d" path="res://item_list.gd" id="3_qtu10"]
 
 [node name="Node2D" type="Control"]
@@ -16,6 +17,10 @@ script = ExtResource("1_0fbet")
 [node name="RouteManager" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("2_62e2m")
+
+[node name="RealtimeManager" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("3_ee4bf")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 0

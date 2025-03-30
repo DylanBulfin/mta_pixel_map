@@ -79,7 +79,6 @@ func interpolate_line(pposs: Array[Vector2i]) -> Array[Vector2i]:
 		var vi = Vector2i(round(val.x), round(val.y))
 		
 		if vi not in new_vals:
-			print(i)
 			new_vals[vi] = null
 		
 		i += 1
@@ -114,7 +113,6 @@ func interpolate_line(pposs: Array[Vector2i]) -> Array[Vector2i]:
 		var vi = Vector2i(round(val.x), round(val.y))
 		
 		if vi not in new_vals:
-			print(i)
 			new_vals[vi] = null
 			pass
 	
