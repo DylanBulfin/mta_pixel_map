@@ -1,4 +1,4 @@
-extends RefCounted
+extends Object
 class_name SubwayRoute
 
 @export var route_id: String

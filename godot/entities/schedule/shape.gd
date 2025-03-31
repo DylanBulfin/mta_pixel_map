@@ -1,4 +1,4 @@
-extends RefCounted
+extends Object
 class_name SubwayShape
 
 @export var shape_id: String

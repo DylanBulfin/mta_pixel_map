@@ -1,4 +1,4 @@
-extends RefCounted
+extends Object
 class_name SubwayStopTime
 
 @export var stop_id: String

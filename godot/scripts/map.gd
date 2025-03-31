@@ -27,4 +27,3 @@ func _ready() -> void:
 	%BackgroundRect.texture = background_texture
 	self.custom_minimum_size = Vector2(width, height)
 	
-	

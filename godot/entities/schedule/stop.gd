@@ -1,4 +1,4 @@
-extends RefCounted
+extends Object
 class_name SubwayStop
 
 @export var stop_id: String
@@ -7,7 +7,6 @@ class_name SubwayStop
 @export var lon: float
 @export var maybe_parent_station_id: String
 
-var maybe_parent_station: SubwayStop
 var child_stations: Array[SubwayStop]
 
 var latlong: Vector2:
@@ -30,4 +29,4 @@ func init_refs(schedule: SubwaySchedule) -> void:
 	))
 	
 	if maybe_parent_station_id:
-		self.maybe_parent_station = schedule.stops[maybe_parent_station_id]
+		self.maybe_parent_station = weakref(schedule.stops[maybe_parent_station_id])

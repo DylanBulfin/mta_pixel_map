@@ -1,4 +1,4 @@
-extends RefCounted
+extends Object
 class_name SubwayService
 
 @export var service_id: String

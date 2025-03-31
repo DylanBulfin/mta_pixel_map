@@ -13,6 +13,7 @@ config_version=5
 config/name="TransitApp"
 run/main_scene="uid://cefbjvseifcxl"
 config/features=PackedStringArray("4.4", "GL Compatibility")
+boot_splash/image="uid://cuj0twc6jx4v6"
 config/icon="res://icon.svg"
 
 [autoload]
@@ -25,7 +26,7 @@ ScheduleManager="*res://scripts/schedule_manager.gd"
 [display]
 
 window/size/viewport_width=1300
-window/size/viewport_height=100
+window/size/viewport_height=1450
 window/stretch/mode="viewport"
 
 [rendering]

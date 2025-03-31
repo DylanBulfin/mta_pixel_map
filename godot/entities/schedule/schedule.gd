@@ -1,4 +1,4 @@
-extends RefCounted
+extends Object
 class_name SubwaySchedule
 
 var routes: Dictionary[String, SubwayRoute]
