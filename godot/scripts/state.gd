@@ -37,7 +37,7 @@ func _ready() -> void:
 		point.local_scale = local_scale_total / divisor_total
 
 	schedule = ScheduleGodot.new()
-	schedule.setup()
+	schedule.setup("./test_data")
 	
 	for shape_json in schedule.shapes:
 		var shape = ShapeGodot.new()
@@ -53,8 +53,8 @@ func _ready() -> void:
 					shape[n] = json[n]
 		shapes[shape.shape_id] = shape
 
-	for station_json in schedule.stations:
-		var station = StationGodot.new()
+	for station_json in schedule.stops:
+		var station = StopGodot.new()
 		var json: Dictionary = JSON.parse_string(station_json)
 		for field: Dictionary in station.get_property_list():
 			var n = field.get("name")
@@ -65,5 +65,5 @@ func _ready() -> void:
 					station[n].assign(json[n])
 				else:
 					station[n] = json[n]
-		stations[station.id] = station
+		stations[station.stop_id] = station
 	

@@ -384,9 +384,9 @@ macro_rules! setup_godot {
 #[godot_api]
 impl ScheduleGodot {
     #[func]
-    fn setup(&mut self) {
+    fn setup(&mut self, dir_path: GString) {
         let schedule: ScheduleRust =
-            gtfs_parsing::schedule::Schedule::from_dir("./test_data", true).into();
+            gtfs_parsing::schedule::Schedule::from_dir(dir_path.to_string(), true).into();
 
         setup_godot!(
             self,

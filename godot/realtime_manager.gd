@@ -1,7 +1,7 @@
 extends Node
 
 var requests: Array[RealtimeRequest]
-var since_last_update: float = 30.0
+var since_last_update: float = 0.0
 
 var rects: Dictionary#[String, TextureRect]
 
@@ -20,8 +20,8 @@ func _ready() -> void:
 		request.request_completed.connect(
 			func(a, b, c, d): _on_line_request_completed(id, a, b, c, d))
 
-func _process(delta: float) -> void:
-	since_last_update += delta
+func _process(_delta: float) -> void:
+	#since_last_update += delta
 	
 	if since_last_update >= 30:
 		print("Updating")
@@ -29,8 +29,9 @@ func _process(delta: float) -> void:
 		for request: RealtimeRequest in requests:
 			print(request.url)
 			var error = request.request(request.url)
+			if error: push_error(error)
 
-func _on_line_request_completed(id: String, result, response_code, headers, body) -> void:
+func _on_line_request_completed(id: String, _result, _response_code, _headers, body) -> void:
 	print("Request complete: ", len(body))
 	var update := RealtimeUpdateGodot.new()
 	update.setup(body)
@@ -45,7 +46,7 @@ func _on_line_request_completed(id: String, result, response_code, headers, body
 		vehicle.status = json["status"] as int
 		
 		if vehicle.status == 1: # Stopped at
-			var station: StationGodot = State.stations.get(vehicle.stop_id)
+			var station: StopGodot = State.stations.get(vehicle.stop_id)
 			if not station: continue
 			var pos := Vector2(station.lon, station.lat)
 			

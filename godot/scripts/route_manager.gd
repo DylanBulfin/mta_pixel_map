@@ -64,22 +64,15 @@ func interpolate_line(pposs: Array[Vector2i]) -> Array[Vector2i]:
 		var b = pposs[i + 2]
 		var post_b = pposs[i + 3]
 		
-		var x = 0.0
-		while x <= 1.0:
-			var val = Vector2(a).cubic_interpolate(Vector2(b), Vector2(pre_a), Vector2(post_b), x)
+		for weight in [
+			0.00, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45,
+			0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.00
+		]:
+			var val = Vector2(a).cubic_interpolate(Vector2(b), Vector2(pre_a), Vector2(post_b), weight)
 			var vi = Vector2i(round(val.x), round(val.y))
 			
 			if vi not in new_vals:
 				new_vals[vi] = null
-			
-			x += 0.05
-				
-		# Explicitly do 1.0 as well
-		var val = Vector2(a).cubic_interpolate(Vector2(b), Vector2(pre_a), Vector2(post_b), 1.0)
-		var vi = Vector2i(round(val.x), round(val.y))
-		
-		if vi not in new_vals:
-			new_vals[vi] = null
 		
 		i += 1
 		
@@ -96,26 +89,15 @@ func interpolate_line(pposs: Array[Vector2i]) -> Array[Vector2i]:
 		var a = pposs[triple[1]]
 		var b = pposs[triple[2]]
 		
-		var x = 0.0
-		
-		# Interpolate between first and last pair of points
-		while x <= 1.0:
-			var val = Vector2(a).cubic_interpolate(Vector2(b), Vector2(pre_a), Vector2(b), x)
+		for weight in [
+			0.00, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45,
+			0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.00
+		]:
+			var val = Vector2(a).cubic_interpolate(Vector2(b), Vector2(pre_a), Vector2(b), weight)
 			var vi = Vector2i(round(val.x), round(val.y))
 			
 			if vi not in new_vals:
 				new_vals[vi] = null
-			
-			x += 0.05
-				
-		# Explicitly do 1.0 as well
-		var val = Vector2(a).cubic_interpolate(Vector2(b), Vector2(pre_a), Vector2(b), 1.0)
-		var vi = Vector2i(round(val.x), round(val.y))
-		
-		if vi not in new_vals:
-			new_vals[vi] = null
-			pass
-	
 	
 	var res: Array[Vector2i]
 	res.assign(new_vals.keys())
