@@ -51,4 +51,8 @@ anchors_preset = 9
 anchor_bottom = 1.0
 grow_vertical = 2
 
+[node name="RealtimeRect" type="Control" parent="HBoxContainer/BackgroundRect"]
+unique_name_in_owner = true
+anchors_preset = 0
+
 [connection signal="multi_selected" from="HBoxContainer/ItemList" to="HBoxContainer/ItemList" method="_on_multi_selected"]

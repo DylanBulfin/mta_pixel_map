@@ -160,7 +160,7 @@ dependencies = [
 [[package]]
 name = "gtfs-parsing"
 version = "0.1.0"
-source = "git+https://github.com/DylanBulfin/gtfs-parsing?branch=main#76ac7726f56ccc8fd87752a1dd3a544bcf72b2ac"
+source = "git+https://github.com/DylanBulfin/gtfs-parsing?branch=main#b5bf1ebb7df31bb6fcfad3200fb2185282af4016"
 dependencies = [
  "csv",
  "protobuf",

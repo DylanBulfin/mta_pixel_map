@@ -5,3 +5,5 @@ class_name RealtimeRequest
 var url: String:
 	get: return "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs"\
 			+ ("" if line_id == "1234567s" else str("-", line_id))
+
+var rect: TextureRect
