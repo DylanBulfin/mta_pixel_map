@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 State="*res://scripts/state.gd"
 Utils="*res://scripts/utils.gd"
 Consts="*res://scripts/consts.gd"
+Schedule="*res://scripts/schedule.gd"
 
 [display]
 
