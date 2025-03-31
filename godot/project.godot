@@ -25,7 +25,7 @@ ScheduleManager="*res://scripts/schedule_manager.gd"
 [display]
 
 window/size/viewport_width=1300
-window/size/viewport_height=1430
+window/size/viewport_height=100
 window/stretch/mode="viewport"
 
 [rendering]

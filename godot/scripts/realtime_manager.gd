@@ -11,7 +11,6 @@ func _ready() -> void:
 		request.line_id = id
 		
 		var rect = TextureRect.new()
-		%RealtimeRect.add_child(rect)
 		rects[id] = rect
 		
 		requests.append(request)

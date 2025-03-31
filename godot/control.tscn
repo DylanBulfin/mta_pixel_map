@@ -1,9 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://cefbjvseifcxl"]
+[gd_scene load_steps=3 format=3 uid="uid://cefbjvseifcxl"]
 
-[ext_resource type="Script" uid="uid://b0ljch4r0sccd" path="res://scripts/control.gd" id="1_0fbet"]
-[ext_resource type="Script" uid="uid://buf3wr6pxkq4o" path="res://scripts/route_manager.gd" id="2_62e2m"]
-[ext_resource type="Script" uid="uid://d17vodsa321m7" path="res://realtime_manager.gd" id="3_ee4bf"]
-[ext_resource type="Script" uid="uid://d250jotwp888d" path="res://item_list.gd" id="3_qtu10"]
+[ext_resource type="Script" uid="uid://d17vodsa321m7" path="res://scripts/realtime_manager.gd" id="3_ee4bf"]
+[ext_resource type="PackedScene" uid="uid://bb6i00gcpbexa" path="res://map.tscn" id="5_kbped"]
 
 [node name="Node2D" type="Control"]
 layout_mode = 3
@@ -12,47 +10,22 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_0fbet")
-
-[node name="RouteManager" type="Node" parent="."]
-unique_name_in_owner = true
-script = ExtResource("2_62e2m")
 
 [node name="RealtimeManager" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("3_ee4bf")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="ItemList" type="ItemList" parent="HBoxContainer"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-select_mode = 2
-script = ExtResource("3_qtu10")
-
-[node name="BackgroundRect" type="TextureRect" parent="HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="RouteContainer" type="Control" parent="HBoxContainer/BackgroundRect"]
-unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 9
+anchors_preset = 15
+anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
 grow_vertical = 2
 
-[node name="StationRect" type="TextureRect" parent="HBoxContainer/BackgroundRect"]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 9
-anchor_bottom = 1.0
-grow_vertical = 2
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
 
-[node name="RealtimeRect" type="Control" parent="HBoxContainer/BackgroundRect"]
-unique_name_in_owner = true
-anchors_preset = 0
-
-[connection signal="multi_selected" from="HBoxContainer/ItemList" to="HBoxContainer/ItemList" method="_on_multi_selected"]
+[node name="Map" parent="HBoxContainer/ScrollContainer" instance=ExtResource("5_kbped")]
+layout_mode = 2
