@@ -5,3 +5,4 @@ rust/target
 rust/test_data
 */.session
 godot/test_data
+*/addons

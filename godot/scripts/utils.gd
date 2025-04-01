@@ -14,23 +14,6 @@ func estimate_pixel_pos(latlong: Vector2) -> Vector2i:
 	
 	return Vector2i(round(res.x), round(res.y))
 
-func decode_date(date: String) -> ServiceDate:
-	var year := int(date.substr(0, 4))
-	var month := int(date.substr(4, 2))
-	var day := int(date.substr(6, 2))
-	
-	return ServiceDate.create_from_date(year, month, day)
-
-func days_in_month(month: int, year: int) -> int:
-	match month:
-		1,3,5,7,8,10,12: return 31
-		4,6,9,11: return 30
-		2:
-			if year % 4 == 0 and (year % 100 != 0 or year % 400 == 0):
-				return 29
-			else: return 28
-		_: return 0
-
 func image_from_pposs(pposs: Array[Vector2i], width: int, height: int, color: Color) -> Image:
 	var row_width := width * 4 # 4 bytes per pixel
 	var data: PackedByteArray

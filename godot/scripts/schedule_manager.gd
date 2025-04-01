@@ -13,15 +13,15 @@ func update_curr_schedule(schedule: ScheduleGodot) -> void:
 	var new_schedule = SubwaySchedule.new()
 	
 	var dd := Time.get_datetime_dict_from_system()
-	var curr_date := ServiceDate.create_from_date(dd.year, dd.month, dd.day)
+	var curr_date := str("%04d" % dd.year, "%02d" % dd.month, "%02d" % dd.day)
 	
 	for service_json: String in schedule.services:
 		var service: SubwayService = SubwayService.from_dict(JSON.parse_string(service_json))
-		if service.start_date <= curr_date.tomorrow and service.end_date >= curr_date.today:
+		if service.start_date <= curr_date and service.end_date >= curr_date:
 			new_schedule.services[service.service_id] = service
 	for service_exception_json: String in schedule.service_exceptions:
 		var service_exception: SubwayServiceException = SubwayServiceException.from_dict(JSON.parse_string(service_exception_json))
-		if service_exception.date >= curr_date.today and service_exception.date <= curr_date.tomorrow:
+		if service_exception.date == curr_date:
 			if not new_schedule.service_exceptions.has(service_exception.service_id):
 				new_schedule.service_exceptions[service_exception.service_id] = []
 			new_schedule.service_exceptions[service_exception.service_id].append(service_exception)

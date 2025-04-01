@@ -2,6 +2,8 @@ extends Node
 
 var reference_points: Array[ReferencePoint]
 
+var route_icons: Dictionary[String, Texture2D]
+
 func _ready() -> void:
 	var data = preload("res://resources/data.tres")
 	reference_points.assign(data.reference_points)
@@ -19,3 +21,8 @@ func _ready() -> void:
 			local_scale_total += (1 / ll_distance) * (pix_distance / ll_distance)
 		
 		point.local_scale = local_scale_total / divisor_total
+	
+
+func init_icons() -> void:
+	#route_icons["1"] = 
+	pass
