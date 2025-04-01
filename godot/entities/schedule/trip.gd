@@ -33,9 +33,8 @@ func init_refs(schedule: SubwaySchedule) -> void:
 		# Represented by a real service
 		maybe_service = schedule.services[service_id]
 	
-	service_exceptions.assign(schedule.service_exceptions.filter(
-		func(e): return e.service_id == service_id
-	))
+	if schedule.service_exceptions.has(service_id):
+		service_exceptions.assign(schedule.service_exceptions[service_id])
 	
 	if maybe_shape_id:
 		maybe_shape = schedule.shapes[maybe_shape_id]

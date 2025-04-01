@@ -13,5 +13,5 @@ var transfers: Dictionary[String, Array]
 # Unique id is trip_id, Array[SubwayStopTime]
 var stop_times: Dictionary[String, Array]
 
-# Doesn't have unique IDs, so no use for Dict
-var service_exceptions: Array[SubwayServiceException]
+# Organized by service_id
+var service_exceptions: Dictionary[String, Array]

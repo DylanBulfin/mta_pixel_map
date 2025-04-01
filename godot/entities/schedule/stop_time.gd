@@ -8,6 +8,7 @@ class_name SubwayStopTime
 @export var stop_sequence: int
 
 var stop: SubwayStop
+var trip: SubwayTrip
 
 static func from_dict(dict: Dictionary) -> SubwayStopTime:
 	var res = SubwayStopTime.new()
@@ -22,3 +23,4 @@ static func from_dict(dict: Dictionary) -> SubwayStopTime:
 
 func init_refs(schedule: SubwaySchedule) -> void:
 	stop = schedule.stops[stop_id]
+	trip = schedule.trips[trip_id]

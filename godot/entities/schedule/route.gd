@@ -26,9 +26,9 @@ static func from_dict(dict: Dictionary) -> SubwayRoute:
 	res.url = dict["url"]
 	
 	if dict["has_color"]:
-		res.maybe_color = Color(dict["color"])
+		res.maybe_color = Color.from_string(dict["color"], Color.TRANSPARENT)
 	if dict["has_text_color"]:
-		res.maybe_text_color = Color(dict["text_color"])
+		res.maybe_text_color = Color.from_string(dict["text_color"], Color.TRANSPARENT)
 	
 	return res
 

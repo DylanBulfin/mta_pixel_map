@@ -31,6 +31,4 @@ static func from_dict(dict: Dictionary) -> SubwayService:
 	return res
 
 func init_refs(schedule: SubwaySchedule) -> void:
-	exceptions.assign(schedule.service_exceptions.filter(
-		func(se): return se.service_id == service_id
-	))
+	exceptions.assign(schedule.service_exceptions[service_id])

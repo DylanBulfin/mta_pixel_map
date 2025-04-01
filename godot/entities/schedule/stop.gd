@@ -7,6 +7,7 @@ class_name SubwayStop
 @export var lon: float
 @export var maybe_parent_station_id: String
 
+var maybe_parent_station: SubwayStop
 var child_stations: Array[SubwayStop]
 
 var latlong: Vector2:
