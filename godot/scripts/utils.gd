@@ -1,45 +1,18 @@
 extends Node
-func find_closest_points(target: Vector2, count: int = State.num_closest) -> Array[ReferencePoint]:
-	var new_points: Array[ReferencePoint] = State.reference_points.duplicate()
-	
-	new_points.sort_custom(
-		func(a: ReferencePoint, b: ReferencePoint) -> bool: 
-			return a.latlong.distance_squared_to(target) < b.latlong.distance_squared_to(target)
-	)
-	
-	return new_points.slice(0, count)
-
-func estimate_pixel_pos(latlong: Vector2, count: int = State.num_closest) -> Vector2i:
-	var closest = find_closest_points(latlong, count)
+func estimate_pixel_pos(latlong: Vector2) -> Vector2i:
 	var total_distance := 0.0
-	
-	for point in closest:
-		var diff = latlong - point.latlong
-		var dist = diff.length()
-		
-		total_distance += (1 / dist)
-
 	var total := Vector2.ZERO
-	for point in closest:
+	
+	for point in State.reference_points:
 		var diff = latlong - point.latlong
-		var dist = diff.length()
+		var dist = latlong.distance_squared_to(point.latlong)
 		
 		total +=  (1 / dist) * (point.ppos + point.local_scale * (Consts.X_NORM * diff.x + Consts.Y_NORM * diff.y))
+		total_distance += (1 / dist)
 		
 	var res := total / total_distance
 	
 	return Vector2i(round(res.x), round(res.y))
-
-func draw_megapixel(ppos: Vector2i, image: Image, color: Color) -> void:
-	for px in range(State.pixel_factor):
-		for py in range(State.pixel_factor):
-			var final_pos = (State.pixel_factor * ppos) + Vector2i(px, py)
-			
-			if final_pos.x >= 0 and final_pos.y >= 0 and final_pos.x < image.get_width() and final_pos.y < image.get_height():
-				image.set_pixelv(final_pos, color)
-			else:
-				# If any pixel is out of bounds all will be, just abort
-				return
 
 func decode_date(date: String) -> ServiceDate:
 	var year := int(date.substr(0, 4))
@@ -57,3 +30,19 @@ func days_in_month(month: int, year: int) -> int:
 				return 29
 			else: return 28
 		_: return 0
+
+func image_from_pposs(pposs: Array[Vector2i], width: int, height: int, color: Color) -> Image:
+	var row_width := width * 4 # 4 bytes per pixel
+	var data: PackedByteArray
+	data.resize(width * height * 4)
+	
+	for ppos in pposs:
+		if ppos.x < 0 or ppos.y < 0: continue
+		var arr_pos: int = (ppos.y * row_width) + (ppos.x * 4)
+		if arr_pos >= len(data): continue
+		data[arr_pos] = color.r8
+		data[arr_pos + 1] = color.g8
+		data[arr_pos + 2] = color.b8
+		data[arr_pos + 3] = color.a8
+	
+	return Image.create_from_data(width, height, false, Image.FORMAT_RGBA8, data)

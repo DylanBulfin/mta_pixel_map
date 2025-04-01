@@ -25,8 +25,8 @@ func update_curr_schedule(schedule: ScheduleGodot) -> void:
 			if not new_schedule.service_exceptions.has(service_exception.service_id):
 				new_schedule.service_exceptions[service_exception.service_id] = []
 			new_schedule.service_exceptions[service_exception.service_id].append(service_exception)
-			
-			# Initialize refs for both service and service_exception here
+
+			## Initialize refs for both service and service_exception here
 			if new_schedule.services.has(service_exception.service_id):
 				service_exception.maybe_service = new_schedule.services[service_exception.service_id]
 				new_schedule.services[service_exception.service_id].exceptions.append(service_exception)
@@ -64,6 +64,7 @@ func update_curr_schedule(schedule: ScheduleGodot) -> void:
 			stop_time.init_refs(new_schedule)
 	
 	for stop: SubwayStop in new_schedule.stops.values():
+		pass
 		if stop.maybe_parent_station_id:
 			stop.maybe_parent_station = new_schedule.stops[stop.maybe_parent_station_id]
 			stop.maybe_parent_station.child_stations.append(stop)

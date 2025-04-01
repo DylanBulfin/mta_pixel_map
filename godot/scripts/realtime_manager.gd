@@ -23,7 +23,6 @@ func _process(_delta: float) -> void:
 	#since_last_update += delta
 	
 	if since_last_update >= 30:
-		print("Updating")
 		since_last_update = 0.0
 		for request: RealtimeRequest in requests:
 			print(request.url)

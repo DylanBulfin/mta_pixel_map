@@ -5,13 +5,8 @@ var background_image: Image
 
 var pixel_scale: int = 5
 
-const BG_WIDTH_PX: int = 220
-const BG_HEIGHT_PX: int = 286
-
-var width: int:
-	get: return BG_WIDTH_PX * pixel_scale
-var height: int:
-	get: return BG_HEIGHT_PX * pixel_scale
+const width: int = 220
+const height: int = 286
 
 var route_nodes: Array[TextureRect]
 
@@ -29,37 +24,45 @@ func _ready() -> void:
 	background_image = preload("res://NYC.png")
 	var background_texture := ImageTexture.create_from_image(background_image)
 	%BackgroundRect.texture = background_texture
-	self.custom_minimum_size = Vector2(width, height)
+	%BackgroundRect.stretch_mode = TextureRect.STRETCH_SCALE
+	self.custom_minimum_size = Vector2(width * pixel_scale, height * pixel_scale)
+	%BackgroundRect.custom_minimum_size = Vector2(width * pixel_scale, height * pixel_scale)
+	%RouteContainer.custom_minimum_size = Vector2(width * pixel_scale, height * pixel_scale)
 
 func _process(delta: float) -> void:
 	if not initialized: 
 		initialized = true
-		var shapes: Dictionary[SubwayShape, Variant]
+		var shapes_by_route: Dictionary[SubwayRoute, Array]
 		for trip: SubwayTrip in ScheduleManager.curr_schedule.trips.values():
-			if trip.maybe_shape and not shapes.has(trip.maybe_shape):
-				shapes[trip.maybe_shape] = null
-				var color = trip.route.maybe_color
-				if not color: color = Color.BLACK
-				create_shape_route_node(trip.maybe_shape, color)
-		var shapes_arr: Array[SubwayShape]
-		shapes_arr.assign(shapes.values())
-		
-		
+			if trip.maybe_shape:
+				var route = trip.route
+				if not shapes_by_route.has(route):
+					shapes_by_route[route] = []
+				if not shapes_by_route[route].has(trip.maybe_shape):
+					shapes_by_route[route].append(trip.maybe_shape)
+		for route in shapes_by_route:
+			var color := route.maybe_color
+			if not color: color = Color.BLACK
+			create_shapes_route_node(shapes_by_route[route], color)
 
-func create_shape_route_node(shape: SubwayShape, color: Color) -> void:
-	var image = Image.create_empty(width, height, false, Image.FORMAT_RGBA8)
-	var pposs: Array[Vector2i]
-	for i in range(len(shape.lats)):
-		var latlong = Vector2(shape.lons[i], shape.lats[i])
-		var ppos = Utils.estimate_pixel_pos(latlong)
-		pposs.append(ppos)
+# Node with texture image from multiple shapes that describe a route
+func create_shapes_route_node(shapes: Array, color: Color) -> void:
+	var pposs: Dictionary[Vector2i, Variant]
+	for shape: SubwayShape in shapes:
+		var curr_pposs: Array[Vector2i]
+		for i in range(len(shape.lats)):
+			var latlong = Vector2(shape.lons[i], shape.lats[i])
+			var ppos = Utils.estimate_pixel_pos(latlong)
+			curr_pposs.append(ppos)
+		for ppos in interpolate_line(curr_pposs):
+			if not pposs.has(ppos):
+				pposs[ppos] = null
 	
-	pposs = interpolate_line(pposs)
-	for ppos in pposs:
-		Utils.draw_megapixel(ppos, image, color)
-	
+	var image := Utils.image_from_pposs(pposs.keys(), width, height, color)
 	var rect := TextureRect.new()
 	rect.texture = ImageTexture.create_from_image(image)
+	rect.stretch_mode = TextureRect.STRETCH_SCALE
+	rect.custom_minimum_size = Vector2(width * pixel_scale, height * pixel_scale)
 	route_nodes.append(rect)
 	%RouteContainer.add_child(rect)
 
