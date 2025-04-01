@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://cefbjvseifcxl"]
+[gd_scene load_steps=3 format=3 uid="uid://cefbjvseifcxl"]
 
-[ext_resource type="Script" uid="uid://cic0lhcrinolw" path="res://scripts/sidebar.gd" id="2_qtu10"]
+[ext_resource type="PackedScene" uid="uid://b1mu430v2u7lr" path="res://map_screen.tscn" id="2_62e2m"]
 [ext_resource type="Script" uid="uid://d17vodsa321m7" path="res://scripts/realtime_manager.gd" id="3_ee4bf"]
-[ext_resource type="PackedScene" uid="uid://bb6i00gcpbexa" path="res://map.tscn" id="5_kbped"]
 
 [node name="Node2D" type="Control"]
 layout_mode = 3
@@ -16,34 +15,5 @@ grow_vertical = 2
 unique_name_in_owner = true
 script = ExtResource("3_ee4bf")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="MapScreen" parent="." instance=ExtResource("2_62e2m")]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
-layout_mode = 2
-
-[node name="Sidebar" type="ItemList" parent="HBoxContainer/VBoxContainer"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-select_mode = 1
-allow_search = false
-icon_scale = 3.0
-script = ExtResource("2_qtu10")
-
-[node name="Button" type="Button" parent="HBoxContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Map" parent="HBoxContainer/ScrollContainer" instance=ExtResource("5_kbped")]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3

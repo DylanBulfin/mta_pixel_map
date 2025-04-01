@@ -1,0 +1,55 @@
+[gd_scene load_steps=3 format=3 uid="uid://b1mu430v2u7lr"]
+
+[ext_resource type="Script" uid="uid://cic0lhcrinolw" path="res://scripts/map_screen.gd" id="1_tkw7f"]
+[ext_resource type="PackedScene" uid="uid://bb6i00gcpbexa" path="res://map.tscn" id="2_wcttb"]
+
+[node name="MapScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_tkw7f")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="Sidebar" type="ItemList" parent="HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_vertical = 3
+select_mode = 2
+allow_search = false
+icon_scale = 3.0
+
+[node name="SelectAllButton" type="Button" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Select All"
+
+[node name="DeselectAllButton" type="Button" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Deselect All"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Map" parent="HBoxContainer/ScrollContainer" instance=ExtResource("2_wcttb")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[connection signal="multi_selected" from="HBoxContainer/VBoxContainer/Sidebar" to="." method="_on_sidebar_multi_selected"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/SelectAllButton" to="." method="_on_select_all_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/DeselectAllButton" to="." method="_on_deselect_all_button_pressed"]

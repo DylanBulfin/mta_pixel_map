@@ -8,14 +8,12 @@ var pixel_scale: int = 5
 const width: int = 220
 const height: int = 286
 
-var route_nodes: Array[TextureRect]
+var route_nodes: Dictionary[String, TextureRect]
 
 # Points where we know latlong and pixel position. Used to estimate
 # the position of others. Pixel positions relative to the original
 # sprite size of the background image (220x286)
 var references: Array[ReferencePoint]
-
-var initialized: bool = false
 
 func _ready() -> void:
 	# In order to force type coercion
@@ -29,24 +27,23 @@ func _ready() -> void:
 	%BackgroundRect.custom_minimum_size = Vector2(width * pixel_scale, height * pixel_scale)
 	%RouteContainer.custom_minimum_size = Vector2(width * pixel_scale, height * pixel_scale)
 
-func _process(delta: float) -> void:
-	if not initialized: 
-		initialized = true
-		var shapes_by_route: Dictionary[SubwayRoute, Array]
-		for trip: SubwayTrip in ScheduleManager.curr_schedule.trips.values():
-			if trip.maybe_shape:
-				var route = trip.route
-				if not shapes_by_route.has(route):
-					shapes_by_route[route] = []
-				if not shapes_by_route[route].has(trip.maybe_shape):
-					shapes_by_route[route].append(trip.maybe_shape)
-		for route in shapes_by_route:
-			var color := route.maybe_color
-			if not color: color = Color.BLACK
-			create_shapes_route_node(shapes_by_route[route], color)
+func initialize(routes: Array[SubwayRoute]) -> void:
+	var shapes_by_route: Dictionary[SubwayRoute, Array]
+	for trip: SubwayTrip in ScheduleManager.curr_schedule.trips.values():
+		if not routes.has(trip.route): continue
+		if trip.maybe_shape:
+			var route = trip.route
+			if not shapes_by_route.has(route):
+				shapes_by_route[route] = []
+			if not shapes_by_route[route].has(trip.maybe_shape):
+				shapes_by_route[route].append(trip.maybe_shape)
+	for route in shapes_by_route:
+		var color := route.maybe_color
+		if not color: color = Color.BLACK
+		create_shapes_route_node(route.route_id, shapes_by_route[route], color)
 
 # Node with texture image from multiple shapes that describe a route
-func create_shapes_route_node(shapes: Array, color: Color) -> void:
+func create_shapes_route_node(route_id: String, shapes: Array, color: Color) -> void:
 	var pposs: Dictionary[Vector2i, Variant]
 	for shape: SubwayShape in shapes:
 		var curr_pposs: Array[Vector2i]
@@ -63,12 +60,12 @@ func create_shapes_route_node(shapes: Array, color: Color) -> void:
 	rect.texture = ImageTexture.create_from_image(image)
 	rect.stretch_mode = TextureRect.STRETCH_SCALE
 	rect.custom_minimum_size = Vector2(width * pixel_scale, height * pixel_scale)
-	route_nodes.append(rect)
+	route_nodes[route_id] = rect
 	%RouteContainer.add_child(rect)
 
 # To allow easy switching between various screens
 func clear_route_nodes() -> void:
-	for rect in route_nodes:
+	for rect in route_nodes.values():
 		%RouteContainer.remove_child(rect)
 	route_nodes.clear()
 
